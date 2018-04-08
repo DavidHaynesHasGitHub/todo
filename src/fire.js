@@ -7,6 +7,7 @@ const config = {
     storageBucket: "",
     messagingSenderId: "644593594850"
   };
-  const fire = firebase.initializeApp(config);
+const fire = firebase.initializeApp(config)
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
-  export { fire }
+export { fire, facebookProvider }
