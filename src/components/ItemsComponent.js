@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const ItemsComponent=({items, done, action, addItem, inputRef})=>{
+const ItemsComponent=({items, done, action, addItem, inputRef, authenticated})=>{
   let lis = []
   let mark = done === false ? '\u2713' : 'x';
   for(let i in items){
@@ -10,6 +10,7 @@ const ItemsComponent=({items, done, action, addItem, inputRef})=>{
          <span onClick={ ()=> action(i) }>{mark}</span></li>)
     }
   }
+  if(!authenticated){ return null }
   return(
     <div>
     {done
