@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import ItemsComponent from './components/ItemComponent'
+import ItemsComponent from './components/ItemComponents'
 import './App.css';
 
 class App extends Component {
@@ -27,6 +27,19 @@ class App extends Component {
     let {[id]: deleted, ...items} = this.state.items;
     this.setState({ items })
   }
+  addItem=(e)=> {
+    e.preventDefault();
+    let items = {
+      ...this.state.tiems,
+      [new Date().valueOf()]: {
+        item: this.todoItem.value,
+        completed: false
+      }
+    }
+    this.setState({
+      items
+    });
+  }
   render() {
     return (
       <BrowserRouter>
@@ -34,17 +47,26 @@ class App extends Component {
           <h2>A simple todo app</h2>
           <ul className="menu">
             <li><Link to={'/'}>To do</Link></li>
-            <li><Link to={'/completed'}>Completed</link></li>
+            <li><Link to={'/completed'}>Completed</Link></li>
           </ul>
-          <Route exact path='/'
-            render={props =>{
-              <ItemsComponent items={this.state.items} done={false}/>
-          } />
-        <Route exact path='/completed'
-          render{props => {
-            render={props =>{
-              <ItemsComponent items={this.state.items} done={true}/>
-          } />
+          <Route exact path="/"
+              render={props =>
+                <ItemsComponent
+                  items={this.state.items}
+                  done={false}
+                  action={this.completeItem}
+                  addItem={this.addItem}
+                  inputRef={el => this.todoItem = el}
+                  />
+              }/>
+            <Route exact path="/completed"
+              render={props =>
+                <ItemsComponent
+                  items={this.state.items}
+                  done={true}
+                  action={this.deleteItem}
+                  />
+              }/>
         </div>
       </BrowserRouter>
     );
