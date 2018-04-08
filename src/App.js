@@ -5,17 +5,9 @@ import './App.css';
 
 class App extends Component {
   state = {
-    items: {
-      1123: {
-        item: 'item one',
-        completed: false
-      },
-      2564321: {
-        item: 'item two',
-        completed: true
-      }
-    }
+    items: {}
   }
+  itemsRef = fire.database().ref('items')
   completeItem=(id)=>{
     let items = {
       ...this.state.items,
