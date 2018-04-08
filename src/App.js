@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import ItemsComponent from './components/ItemComponent'
 import './App.css';
 
 class App extends Component {
@@ -15,6 +16,17 @@ class App extends Component {
       }
     }
   }
+  completeItem=(id)=>{
+    let items = {
+      ...this.state.items,
+      [id]: {...this.state.items[id], completed: true}
+    }
+    this.setState({ items })
+  }
+  deleteItem = (id) => {
+    let {[id]: deleted, ...items} = this.state.items;
+    this.setState({ items })
+  }
   render() {
     return (
       <BrowserRouter>
@@ -24,26 +36,15 @@ class App extends Component {
             <li><Link to={'/'}>To do</Link></li>
             <li><Link to={'/completed'}>Completed</link></li>
           </ul>
-          <Route exact path='/' render={props =>{
-              let lis = []
-              for(let i in this.state.items){
-                if(this.state.items[i].completed === false){
-                  lis.push(<li key={i}>{this.state.items[i].item} <span>x</span></li>)
-                }
-              }
-              return(<ul className="items"> { lis } </ul>)
-            }
+          <Route exact path='/'
+            render={props =>{
+              <ItemsComponent items={this.state.items} done={false}/>
           } />
-        <Route exact path='/completed' render{props => {
-            let lis = []
-            for(let i in this.state.items){
-              if(this.state.items[i].completed === true){
-                lis.push(<li key=[i]>{this.state.items[i].item} <span>x</span></li>)
-              }
-            }
-            return(<ul className="items"> { lis } </ul>)
-          }
-        } />
+        <Route exact path='/completed'
+          render{props => {
+            render={props =>{
+              <ItemsComponent items={this.state.items} done={true}/>
+          } />
         </div>
       </BrowserRouter>
     );
