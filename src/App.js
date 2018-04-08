@@ -4,16 +4,13 @@ import { fire, facebookProvider } from './fire';
 import './App.css'
 import Menu from './components/Menu';
 import ItemsComponent from './components/ItemsComponent'
-
 class App extends Component {
   state = {
     items: {},
     authenticated: false,
     loading: true
   }
-
   itemsRef = '';
-
   componentWillMount(){
     this.removeAuthListener = fire.auth().onAuthStateChanged(user=>{
       if(user){
@@ -33,7 +30,6 @@ class App extends Component {
       }
     })
   }
-
   authWithFacebook=()=>{
     fire.auth().signInWithPopup(facebookProvider)
       .then((result,error) => {
@@ -44,17 +40,14 @@ class App extends Component {
         }
       })
   }
-
   logOut=()=>{
     fire.auth().signOut().then((user)=> {
       this.setState({items:null})
     })
   }
-
   componentWillUnmount(){
     fire.removeBinding(this.itemsRef)
   }
-
   completeItem=(id)=>{
     this.itemsRef.update({
       [id]:{
@@ -63,13 +56,11 @@ class App extends Component {
       }
     })
   }
-
   deleteItem = (id) => {
     this.itemsRef.update({
       [id]: null
     })
   }
-  
   addItem=(e)=> {
     e.preventDefault();
     this.itemsRef.push({
@@ -77,7 +68,6 @@ class App extends Component {
       completed: false
     })
   }
-
   EmailAndPasswordAuthentication=(e)=>{
     e.preventDefault()
     const email = this.emailInput.value;
